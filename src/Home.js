@@ -1,11 +1,16 @@
-import React from 'react'
+import React from "react";
+import Feed from "./Feed";
 
-const Home = () => {
+const Home = ({ post }) => {
   return (
-    <main>
-      <h1>Home</h1>
+    <main className="Home">
+      {post.length ? (
+        <Feed post={post} />
+      ) : (
+        <p style={{ marginTop: "2rem" }}> No Post to Display</p>
+      )}
     </main>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
