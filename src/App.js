@@ -6,7 +6,7 @@ import NewPost from "./NewPost";
 import PostPage from "./PostPage";
 import About from "./About";
 import Missing from "./Missing";
-import { Routes, Route, useHistory } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 function App() {
@@ -36,20 +36,30 @@ function App() {
       body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis consequatur expedita, assumenda similique non optio! Modi nesciunt excepturi corrupti atque blanditiis quo nobis, non optio quae possimus illum exercitationem ipsa!"
     }
   ]);
-const[search,setSearch]= useState('')
-const[searchResults,setSearchResults]= useState('')
+  const [search, setSearch] = useState("");
+  const [searchResults, setSearchResults] = useState("");
+  const navigate = useNavigate();
+
+  const handleDelete = id => {
+    const postsList = post.filter(post => post.id !== id);
+    setPost(postsList);
+     navigate.push("/");
+  };
 
   return (
     <div className="App">
-      <Header  title={"wellcome to my page"}/>
-      <Nav  search = {search } setSearch={setSearch}/>
+      <Header title={"wellcome to my page"} />
+      <Nav search={search} setSearch={setSearch} />
 
       <Routes>
-        <Route exact path="/" element={<Home  post={post}/>} />
-        <Route exact path="/post" element={<NewPost/>} />
-        <Route  path="/post/:id" element={<PostPage/>} />
-        <Route  path="/about" element={<About/>} />
-        <Route  path="*" element={<Missing/>} />
+        <Route exact path="/" element={<Home post={post} />} />
+        <Route exact path="/post" element={<NewPost />} />
+        <Route
+          path="/post/:id"
+          element={<PostPage post={post} handleDelete={handleDelete} />}
+        />
+        <Route path="/about" element={<About />} />
+        <Route path="*" element={<Missing />} />
       </Routes>
       <Footer />
     </div>
